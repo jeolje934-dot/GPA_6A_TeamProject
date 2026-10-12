@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 8.0f;
 
     [Header("Jump Settings")]
-    public float jumpForce = 7.0f;
+    public float jumpForce = 9.0f;
     private bool isGrounded;
 
     private float currentSpeed;
