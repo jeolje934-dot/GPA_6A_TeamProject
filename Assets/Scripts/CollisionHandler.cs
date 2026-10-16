@@ -1,50 +1,80 @@
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
     private bool isDead = false;
-    public static int coinCount = 0; // 획득한 코인/재화 누적 변수
+
+    public static int coinCount = 0;
+
+    [Header("Game Over UI")]
+    [SerializeField] private GameOverUI gameOverUI;
+
+    private void Start()
+    {
+        coinCount = 0;
+        Time.timeScale = 1f;
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (isDead) return;
 
-        // 장애물 충돌 시 게임 오버[cite: 8, 11]
+        // 장애물에 부딪히면 게임 오버
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             Die();
         }
     }
 
-    // Is Trigger가 켜진 코인과 닿았을 때 처리
     private void OnTriggerEnter(Collider other)
     {
         if (isDead) return;
 
-        // 태그가 "Coin"인 오브젝트와 닿았을 때[cite: 8, 11]
+        // 코인 획득
         if (other.gameObject.CompareTag("Coin"))
         {
             coinCount++;
+
+            // 게임오버 화면에 코인 획득량 전달
+            if (gameOverUI != null)
+            {
+                gameOverUI.AddCoins(1);
+            }
+
             Debug.Log("코인 획득! 현재 코인: " + coinCount);
 
-            // 코인 오브젝트 비활성화 (먹은 효과)[cite: 11]
+            // 획득한 코인 비활성화
             other.gameObject.SetActive(false);
         }
     }
 
-    void Die()
+    public void Die()
     {
+        if (isDead) return;
+
         isDead = true;
+
         Debug.Log("게임 오버!");
-        Invoke("RestartGame", 1.0f);
+
+        // 게임오버 화면 표시
+        if (gameOverUI != null)
+        {
+            gameOverUI.ShowGameOver();
+        }
+
+        // 게임 정지
+        Time.timeScale = 0f;
     }
 
-    void RestartGame()
+    public void RestartGame()
     {
-        coinCount = 0; // 재시작 시 초기화
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1f;
+        coinCount = 0;
+
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().buildIndex
+        );
     }
 }
-
-
