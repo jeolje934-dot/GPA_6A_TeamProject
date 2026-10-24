@@ -6,14 +6,12 @@ public class CollisionHandler : MonoBehaviour
 {
     private bool isDead = false;
 
-    public static int coinCount = 0;
-
     [Header("Game Over UI")]
     [SerializeField] private GameOverUI gameOverUI;
 
     private void Start()
     {
-        coinCount = 0;
+        // 게임 시작 시 일시정지 해제
         Time.timeScale = 1f;
     }
 
@@ -32,21 +30,35 @@ public class CollisionHandler : MonoBehaviour
     {
         if (isDead) return;
 
-        // 코인 획득
-        if (other.gameObject.CompareTag("Coin"))
+        if (GameManager.Instance == null)
         {
-            coinCount++;
+            Debug.LogWarning("GameManager를 찾을 수 없습니다.");
+            return;
+        }
 
-            // 게임오버 화면에 코인 획득량 전달
+        // 코인 획득
+        if (other.CompareTag("Coin"))
+        {
+            GameManager.Instance.AddCoins(1);
+
+            // 게임오버 화면에 획득량 전달
             if (gameOverUI != null)
             {
                 gameOverUI.AddCoins(1);
             }
 
-            Debug.Log("코인 획득! 현재 코인: " + coinCount);
-
             // 획득한 코인 비활성화
             other.gameObject.SetActive(false);
+            return;
+        }
+
+        // 치장 아이템 획득
+        CosmeticPickup cosmetic =
+            other.GetComponent<CosmeticPickup>();
+
+        if (cosmetic != null)
+        {
+            cosmetic.Collect(GameManager.Instance);
         }
     }
 
@@ -71,8 +83,8 @@ public class CollisionHandler : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1f;
-        coinCount = 0;
 
+        // 현재 씬 다시 불러오기
         SceneManager.LoadScene(
             SceneManager.GetActiveScene().buildIndex
         );

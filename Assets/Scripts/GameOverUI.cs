@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameOverUI : MonoBehaviour
@@ -11,6 +12,9 @@ public class GameOverUI : MonoBehaviour
     [Header("Player")]
     [SerializeField] private Transform player;
 
+    [Header("Scene")]
+    [SerializeField] private string titleSceneName = "TitleScene";
+
     private Vector3 startPosition;
     private float survivalTime;
     private int totalCoins;
@@ -18,6 +22,8 @@ public class GameOverUI : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1f;
+
         if (player != null)
             startPosition = player.position;
 
@@ -74,5 +80,19 @@ public class GameOverUI : MonoBehaviour
 
         if (gameOverPanel != null)
             gameOverPanel.SetActive(true);
+
+        Time.timeScale = 0f;
+    }
+
+    public void RetryGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void GoToTitle()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(titleSceneName);
     }
 }
