@@ -5,7 +5,11 @@ using TMPro;
 
 public class GameOverUI : MonoBehaviour
 {
-    [Header("UI")]
+    [Header("게임 진행 UI")]
+    [SerializeField] private TMP_Text currentCoinsText;
+    [SerializeField] private TMP_Text currentDistanceText;
+
+    [Header("게임오버 UI")]
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TMP_Text statsText;
 
@@ -16,7 +20,10 @@ public class GameOverUI : MonoBehaviour
     [SerializeField] private string titleSceneName = "TitleScene";
 
     private Vector3 startPosition;
+    private Vector3 lastPosition;
+
     private float survivalTime;
+    private float distanceTravelled;
     private int totalCoins;
     private bool isGameOver;
 
@@ -25,28 +32,81 @@ public class GameOverUI : MonoBehaviour
         Time.timeScale = 1f;
 
         if (player != null)
+        {
             startPosition = player.position;
+            lastPosition = player.position;
+        }
 
         survivalTime = 0f;
+        distanceTravelled = 0f;
         totalCoins = 0;
         isGameOver = false;
 
         if (gameOverPanel != null)
             gameOverPanel.SetActive(false);
+
+        UpdateGameUI();
     }
 
     void Update()
     {
-        if (!isGameOver)
-            survivalTime += Time.deltaTime;
+        if (isGameOver)
+            return;
+
+        survivalTime += Time.deltaTime;
+
+        UpdateDistance();
+        UpdateGameUI();
     }
 
+    // 실제 이동 거리 누적
+    private void UpdateDistance()
+    {
+        if (player == null)
+            return;
+
+        Vector3 currentPosition = player.position;
+
+        Vector3 currentFlat = new Vector3(
+            currentPosition.x, 0f, currentPosition.z
+        );
+
+        Vector3 lastFlat = new Vector3(
+            lastPosition.x, 0f, lastPosition.z
+        );
+
+        distanceTravelled +=
+            Vector3.Distance(lastFlat, currentFlat);
+
+        lastPosition = currentPosition;
+    }
+
+    // 게임 중 코인과 거리 표시
+    private void UpdateGameUI()
+    {
+        if (currentCoinsText != null)
+        {
+            currentCoinsText.text = "코인: " + totalCoins;
+        }
+
+        if (currentDistanceText != null)
+        {
+            currentDistanceText.text =
+                "거리: " + Mathf.FloorToInt(distanceTravelled) + "m";
+        }
+    }
+
+    // 코인 획득
     public void AddCoins(int amount)
     {
-        if (!isGameOver)
-            totalCoins += amount;
+        if (isGameOver || amount <= 0)
+            return;
+
+        totalCoins += amount;
+        UpdateGameUI();
     }
 
+    // 게임오버
     public void ShowGameOver()
     {
         if (isGameOver)
@@ -54,26 +114,13 @@ public class GameOverUI : MonoBehaviour
 
         isGameOver = true;
 
-        float distance = 0f;
-
-        if (player != null)
-        {
-            Vector3 current = player.position;
-            Vector3 start = startPosition;
-
-            current.y = 0f;
-            start.y = 0f;
-
-            distance = Vector3.Distance(start, current);
-        }
-
         int minutes = Mathf.FloorToInt(survivalTime / 60f);
         int seconds = Mathf.FloorToInt(survivalTime % 60f);
 
         if (statsText != null)
         {
             statsText.text =
-                $"• 최종 이동 거리: {distance:N0}m\n" +
+                $"• 최종 이동 거리: {Mathf.FloorToInt(distanceTravelled):N0}m\n" +
                 $"• 생존 시간: {minutes:00}분 {seconds:00}초\n" +
                 $"• 획득한 재화: +{totalCoins} 코인";
         }
@@ -87,7 +134,9 @@ public class GameOverUI : MonoBehaviour
     public void RetryGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().name
+        );
     }
 
     public void GoToTitle()
