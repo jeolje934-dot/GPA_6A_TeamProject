@@ -2106,7 +2106,7 @@ MonoBehaviour:
   baseSpeed: 10
   maxSpeed: 18
   acceleration: 0.5
-  moveSpeed: 8
+  moveSpeed: 10
   jumpForce: 5
 --- !u!114 &2117282844
 MonoBehaviour:
