@@ -9,7 +9,7 @@ public class MapGenerator : MonoBehaviour
     public Transform player;
 
     private float spawnZ = 0.0f;
-    private float tileLength = 5.0f;
+    private float tileLength = 5f;
     private int amnTilesOnScreen = 6;
     private List<GameObject> activeTiles = new List<GameObject>();
 
