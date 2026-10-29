@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7543109312722846536}
   - component: {fileID: 3035072322392189519}
   - component: {fileID: 5184735964916099414}
+  - component: {fileID: 6018488756384680235}
+  - component: {fileID: 7499289419553953415}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -112,6 +114,48 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &6018488756384680235
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4758176762223232663}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5, y: 7, z: 1}
+  m_Center: {x: -0.75, y: 0, z: 0}
+--- !u!65 &7499289419553953415
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4758176762223232663}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5, y: 7, z: 1}
+  m_Center: {x: 0.75, y: 0, z: 0}
 --- !u!1001 &720520433909687190
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -174,7 +218,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7da0cdc05a8057442b8cbf5139ad063c, type: 3}
       propertyPath: m_Name
-      value: RoadTile (1)
+      value: RoadTile (1) 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7da0cdc05a8057442b8cbf5139ad063c, type: 3}
       propertyPath: m_TagString
