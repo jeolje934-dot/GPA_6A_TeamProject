@@ -37,6 +37,7 @@ public class TitleManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(gameSceneName);
+        Debug.Log("시작 버튼 클릭 성공!");
     }
 
     // 게임 종료
