@@ -68,6 +68,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: RoadTile
       objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: 7da0cdc05a8057442b8cbf5139ad063c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
