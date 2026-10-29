@@ -22,14 +22,14 @@ public class MapGenerator : MonoBehaviour
     private float startTimer = 0f;
     private const float initialSafeTime = 1.5f;
 
-    // 처음에는 안전 구간
     private bool isSafeTime = false;
-
     private float timer = 0f;
+
+    // 다음 바닥 타일이 생성될 Z 위치
     private float spawnZ = 0f;
 
     // 3개 라인
-    private readonly float[] lanePositions = { -2f, -0f, 2f };
+    private readonly float[] lanePositions = { -2f, 0f, 2f };
 
     private readonly List<GameObject> activeTiles =
         new List<GameObject>();
@@ -41,7 +41,7 @@ public class MapGenerator : MonoBehaviour
         startTimer = 0f;
         isSafeTime = false;
 
-        // 시작할 때 바닥 타일만 생성
+        // 시작 구간 바닥 생성
         for (int i = 0; i < amountOfTilesOnScreen; i++)
         {
             SpawnFloorTile();
@@ -50,45 +50,53 @@ public class MapGenerator : MonoBehaviour
 
     void Update()
     {
-        if (player == null)
+        if (player == null || tilePrefab == null)
             return;
 
-        // 시작 후 경과 시간
         startTimer += Time.deltaTime;
 
-        // 3초가 지나면 안전 구간 종료
         if (!isSafeTime && startTimer >= initialSafeTime)
         {
             isSafeTime = true;
         }
 
-        // 안전 구간에는 생성 주기를 기다리지 않고
-        // 바닥 타일만 생성
-        if (!isSafeTime)
+        // 플레이어 앞쪽에 바닥을 미리 생성
+        float targetZ =
+            player.position.z + tileLength * amountOfTilesOnScreen;
+
+        while (spawnZ < targetZ)
         {
-            SpawnFloorTile();
-            return;
+            if (isSafeTime)
+            {
+                SpawnTile();
+            }
+            else
+            {
+                SpawnFloorTile();
+            }
         }
 
-        // 안전 구간 종료 후에는 타이머에 맞춰 생성
-        timer += Time.deltaTime;
-
-        if (timer >= spawnInterval)
+        // 플레이어가 지나간 타일 삭제
+        while (activeTiles.Count > 0)
         {
-            SpawnTile();
-            timer -= spawnInterval;
-        }
+            GameObject oldestTile = activeTiles[0];
 
-        // 플레이어가 충분히 지나간 타일 삭제
-        if (activeTiles.Count > 0)
-        {
-            float oldestTileZ =
-                activeTiles[0].transform.position.z;
+            if (oldestTile == null)
+            {
+                activeTiles.RemoveAt(0);
+                continue;
+            }
 
-            if (player.position.z >
-                oldestTileZ + tileLength + 15f)
+            float tileEndZ =
+                oldestTile.transform.position.z + tileLength;
+
+            if (player.position.z > tileEndZ + 10f)
             {
                 DeleteTile();
+            }
+            else
+            {
+                break;
             }
         }
     }
@@ -106,18 +114,16 @@ public class MapGenerator : MonoBehaviour
         );
 
         activeTiles.Add(tile);
-
         spawnZ += tileLength;
     }
 
     // 바닥 타일 + 장애물 + 코인 생성
     void SpawnTile()
     {
-        float spawnZ = player.transform.position.z + 15;
+        float currentTileZ = spawnZ;
 
-        // 바닥 타일 생성
         Vector3 tilePosition =
-            new Vector3(0f, 0f, spawnZ);
+            new Vector3(0f, 0f, currentTileZ);
 
         GameObject tile = Instantiate(
             tilePrefab,
@@ -126,8 +132,9 @@ public class MapGenerator : MonoBehaviour
         );
 
         activeTiles.Add(tile);
+        spawnZ += tileLength;
 
-        // 3개 라인에 랜덤 생성
+        // 기존 랜덤 배치 방식 유지
         for (int i = 0; i < lanePositions.Length; i++)
         {
             int result = Random.Range(0, 4);
@@ -135,7 +142,7 @@ public class MapGenerator : MonoBehaviour
             Vector3 spawnPosition = new Vector3(
                 lanePositions[i],
                 1f,
-                spawnZ
+                currentTileZ
             );
 
             // 0: 비어 있음
@@ -149,6 +156,7 @@ public class MapGenerator : MonoBehaviour
             {
                 if (obstaclePrefab != null)
                 {
+                    // 타일의 자식으로 지정하지 않음
                     Instantiate(
                         obstaclePrefab,
                         spawnPosition,
@@ -161,6 +169,7 @@ public class MapGenerator : MonoBehaviour
             {
                 if (coinPrefab != null)
                 {
+                    // 타일의 자식으로 지정하지 않음
                     Instantiate(
                         coinPrefab,
                         spawnPosition,
@@ -173,10 +182,10 @@ public class MapGenerator : MonoBehaviour
 
     void DeleteTile()
     {
-        if (activeTiles.Count > 0)
-        {
-            Destroy(activeTiles[0]);
-            activeTiles.RemoveAt(0);
-        }
+        if (activeTiles.Count == 0)
+            return;
+
+        Destroy(activeTiles[0]);
+        activeTiles.RemoveAt(0);
     }
 }
