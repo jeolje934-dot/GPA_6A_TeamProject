@@ -9,6 +9,8 @@ public class CollisionHandler : MonoBehaviour
     [Header("Game Over UI")]
     [SerializeField] private GameOverUI gameOverUI;
 
+    [SerializeField] private BGMController bgmController;
+
     private void Start()
     {
         // 게임 시작 시 일시정지 해제
@@ -62,21 +64,24 @@ public class CollisionHandler : MonoBehaviour
         }
     }
 
+
     public void Die()
     {
         if (isDead) return;
 
         isDead = true;
-
         Debug.Log("게임 오버!");
 
-        // 게임오버 화면 표시
+        if (bgmController != null)
+        {
+            bgmController.StopBGM();
+        }
+
         if (gameOverUI != null)
         {
             gameOverUI.ShowGameOver();
         }
 
-        // 게임 정지
         Time.timeScale = 0f;
     }
 

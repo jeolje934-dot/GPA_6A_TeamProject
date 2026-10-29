@@ -3666,7 +3666,6 @@ MonoBehaviour:
   maxSpeed: 18
   acceleration: 0.5
   moveSpeed: 10
-  jumpForce: 5
 --- !u!114 &2117282844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3710,6 +3709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollisionHandler
   gameOverUI: {fileID: 1347361711}
+  bgmController: {fileID: 632130274}
 --- !u!114 &2117282846
 MonoBehaviour:
   m_ObjectHideFlags: 0

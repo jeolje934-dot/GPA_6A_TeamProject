@@ -14,19 +14,23 @@ public class BGMController : MonoBehaviour
 
     void Start()
     {
-        if (bgmAudioSource != null && !bgmAudioSource.isPlaying)
+        // 게임 시작 시 배경음악 재생
+        if (bgmAudioSource != null)
         {
-            bgmAudioSource.Play();
+            bgmAudioSource.loop = true;
+
+            if (!bgmAudioSource.isPlaying)
+            {
+                bgmAudioSource.Play();
+            }
         }
     }
 
-    // BGM 볼륨 조절
     public void SetBGMVolume(float volume)
     {
         SetMixerVolume("BGMVolume", volume);
     }
 
-    // 효과음 볼륨 조절
     public void SetSFXVolume(float volume)
     {
         SetMixerVolume("SFXVolume", volume);
@@ -38,7 +42,6 @@ public class BGMController : MonoBehaviour
 
         volume = Mathf.Clamp01(volume);
 
-        // 0은 음소거, 나머지는 데시벨로 변환
         float decibels = volume <= 0.0001f
             ? -80f
             : Mathf.Log10(volume) * 20f;
@@ -46,29 +49,38 @@ public class BGMController : MonoBehaviour
         audioMixer.SetFloat(parameter, decibels);
     }
 
-    // 설정창을 열 때 음악 일시정지
+    // 설정창에서 음악 일시정지
     public void PauseBGM()
     {
-        if (bgmAudioSource != null)
+        if (bgmAudioSource != null && bgmAudioSource.isPlaying)
         {
             bgmAudioSource.Pause();
+            isPaused = true;
         }
-
-        isPaused = true;
     }
 
-    // 설정창을 닫을 때 음악 재개
+    // 설정창을 닫으면 음악 재개
     public void ResumeBGM()
     {
         if (bgmAudioSource != null && isPaused)
         {
             bgmAudioSource.UnPause();
+            isPaused = false;
+        }
+    }
+
+    // 장애물 충돌 또는 게임 오버 시 음악 정지
+    public void StopBGM()
+    {
+        if (bgmAudioSource != null)
+        {
+            bgmAudioSource.Stop();
         }
 
         isPaused = false;
     }
 
-    // 기존 기능 유지: 음악 처음부터 재생
+    // 재시작할 때 음악 처음부터 재생
     public void RestartBGM()
     {
         if (bgmAudioSource != null)
