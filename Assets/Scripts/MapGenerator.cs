@@ -29,7 +29,7 @@ public class MapGenerator : MonoBehaviour
     private float spawnZ = 0f;
 
     // 3∞≥ ∂Û¿Œ
-    private readonly float[] lanePositions = { -4.5f, -2f, 0.5f };
+    private readonly float[] lanePositions = { -2f, -0f, 2f };
 
     private readonly List<GameObject> activeTiles =
         new List<GameObject>();
