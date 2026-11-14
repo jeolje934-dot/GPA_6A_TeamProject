@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Coin
   coinSound: {fileID: 0}
-  soundVolume: 1
+  soundVolume: 0.476
 --- !u!114 &8389461906987223855
 MonoBehaviour:
   m_ObjectHideFlags: 0
