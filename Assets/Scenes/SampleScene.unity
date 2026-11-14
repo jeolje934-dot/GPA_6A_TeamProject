@@ -370,7 +370,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -46.579346, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1454,7 +1454,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: b5ab5eb45f0dc894684ff9486242ab98, type: 3}
+  m_Resource: {fileID: 8300000, guid: eaf55a245e865544b9464a6037b2543f, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -3990,14 +3990,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapGenerator
   tilePrefab: {fileID: 1496309621}
-  obstaclePrefab: {fileID: 837149250766171746, guid: a1c520ede7f9f3d4c8d98d8ed52ddcd3, type: 3}
   coinPrefab: {fileID: 8782553450898795907, guid: 159b83546580796478c22ae94ce67515, type: 3}
+  zone1ObstaclePrefab: {fileID: 837149250766171746, guid: a1c520ede7f9f3d4c8d98d8ed52ddcd3, type: 3}
+  zone2ObstaclePrefab: {fileID: 837149250766171746, guid: a1c520ede7f9f3d4c8d98d8ed52ddcd3, type: 3}
+  zone3ObstaclePrefab: {fileID: 837149250766171746, guid: a1c520ede7f9f3d4c8d98d8ed52ddcd3, type: 3}
+  zone4ObstaclePrefab: {fileID: 837149250766171746, guid: a1c520ede7f9f3d4c8d98d8ed52ddcd3, type: 3}
+  zone5ObstaclePrefab: {fileID: 837149250766171746, guid: a1c520ede7f9f3d4c8d98d8ed52ddcd3, type: 3}
+  zone1ObstacleTileChance: 0.607
+  zone2ObstacleTileChance: 0.373
+  zone3ObstacleTileChance: 0.65
+  zone4ObstacleTileChance: 0.8
+  zone5ObstacleTileChance: 0.75
+  zone1CoinChance: 0.3
+  zone2CoinChance: 0.446
+  zone3CoinChance: 0.2
+  zone4CoinChance: 0.15
+  zone5CoinChance: 0.2
   player: {fileID: 2117282842}
   tileLength: 5
   amountOfTilesOnScreen: 6
   initialSafeTime: 1.5
-  difficultyInterval: 500
-  coinSpawnChance: 0.55
 --- !u!4 &2085414178
 Transform:
   m_ObjectHideFlags: 0
@@ -4154,7 +4166,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -4171,10 +4183,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e578d2b7a8fdc3409f51324c3e2ffce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  baseSpeed: 10
-  maxSpeed: 18
+  baseSpeed: 15
   acceleration: 0.5
-  moveSpeed: 10
+  moveSpeed: 17
+  zone1MaxSpeed: 18
+  zone2MaxSpeed: 22
+  zone3MaxSpeed: 24
+  zone4MaxSpeed: 25
+  zone5MaxSpeed: 30
 --- !u!114 &2117282844
 MonoBehaviour:
   m_ObjectHideFlags: 0

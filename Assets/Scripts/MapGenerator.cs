@@ -1,13 +1,32 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
-    [Header("프리팹")]
+    [Header("기본 프리팹")]
     public GameObject tilePrefab;
-    public GameObject obstaclePrefab;
     public GameObject coinPrefab;
+
+    [Header("구간별 장애물 프리팹 (기획안 연동)")]
+    [SerializeField] private GameObject zone1ObstaclePrefab; // 0 ~ 500M[cite: 1]
+    [SerializeField] private GameObject zone2ObstaclePrefab; // 500 ~ 1000M[cite: 1]
+    [SerializeField] private GameObject zone3ObstaclePrefab; // 1000 ~ 1500M[cite: 1]
+    [SerializeField] private GameObject zone4ObstaclePrefab; // 1500 ~ 2000M[cite: 1]
+    [SerializeField] private GameObject zone5ObstaclePrefab; // 2000M ~ 무한[cite: 1]
+
+    [Header("구간별 장애물 타일 생성 확률 (간격 밀도 조절)")]
+    [Range(0f, 1f)][SerializeField] private float zone1ObstacleTileChance = 0.55f; // 1단계: 단일 장애물, 적당한 간격 (55%)
+    [Range(0f, 1f)][SerializeField] private float zone2ObstacleTileChance = 0.35f; // 2단계: 붙은 장애물, 거리를 더 널찍하게 띄움 (35%)
+    [Range(0f, 1f)][SerializeField] private float zone3ObstacleTileChance = 0.65f; // 3단계: 1+2단계 혼합, 밸런스 간격 (65%)
+    [Range(0f, 1f)][SerializeField] private float zone4ObstacleTileChance = 0.85f; // 4단계: 랜덤, 거리 좁고 촘촘함 (85%)
+    [Range(0f, 1f)][SerializeField] private float zone5ObstacleTileChance = 0.80f; // 무한 구간: 촘촘함 유지 (80%)
+
+    [Header("구간별 코인 생성 확률 (0.0 ~ 1.0)")]
+    [Range(0f, 1f)][SerializeField] private float zone1CoinChance = 0.30f;
+    [Range(0f, 1f)][SerializeField] private float zone2CoinChance = 0.25f;
+    [Range(0f, 1f)][SerializeField] private float zone3CoinChance = 0.20f;
+    [Range(0f, 1f)][SerializeField] private float zone4CoinChance = 0.15f;
+    [Range(0f, 1f)][SerializeField] private float zone5CoinChance = 0.20f;
 
     [Header("플레이어")]
     public Transform player;
@@ -16,28 +35,19 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private float tileLength = 5f;
     [SerializeField] private int amountOfTilesOnScreen = 6;
 
-    [Header("난이도 설정")]
+    [Header("난이도 설정 (초기 안전 시간)")]
     [SerializeField] private float initialSafeTime = 1.5f;
-    [SerializeField] private float difficultyInterval = 500f;
-
-    [Header("코인 설정")]
-    [Range(0f, 1f)]
-    [SerializeField] private float coinSpawnChance = 0.55f;
 
     private float startTimer;
     private float spawnZ;
     private bool isSafeTime;
 
-    // 왼쪽, 가운데, 오른쪽
+    // 왼쪽, 가운데, 오른쪽 레인 X 좌표
     private readonly float[] lanePositions = { -2f, 0f, 2f };
 
-    private readonly List<GameObject> activeTiles =
-        new List<GameObject>();
+    private readonly List<GameObject> activeTiles = new List<GameObject>();
 
-    // 직전 타일의 빈 레인
     private int previousSafeLane = -1;
-
-    // 같은 빈 레인이 반복되는 것을 방지
     private int repeatedSafeLaneCount = 0;
 
     void Start()
@@ -67,20 +77,30 @@ public class MapGenerator : MonoBehaviour
             isSafeTime = true;
         }
 
-        // 플레이어 앞쪽에 타일을 미리 생성
-        float targetZ =
-            player.position.z +
-            tileLength * amountOfTilesOnScreen;
+        float targetZ = player.position.z + tileLength * amountOfTilesOnScreen;
 
         while (spawnZ < targetZ)
         {
             if (isSafeTime)
-                SpawnTile();
+            {
+                float tileDistance = spawnZ;
+                float obstacleTileChance = GetObstacleTileChance(tileDistance);
+
+                if (Random.value < obstacleTileChance)
+                {
+                    SpawnTile();
+                }
+                else
+                {
+                    SpawnFloorTile(); // 빈 바닥 타일 (장애물 간격 확보용)
+                }
+            }
             else
+            {
                 SpawnFloorTile();
+            }
         }
 
-        // 지나간 타일 삭제
         while (activeTiles.Count > 0)
         {
             GameObject oldestTile = activeTiles[0];
@@ -91,8 +111,7 @@ public class MapGenerator : MonoBehaviour
                 continue;
             }
 
-            float tileEndZ =
-                oldestTile.transform.position.z + tileLength;
+            float tileEndZ = oldestTile.transform.position.z + tileLength;
 
             if (player.position.z > tileEndZ + 10f)
             {
@@ -103,6 +122,15 @@ public class MapGenerator : MonoBehaviour
                 break;
             }
         }
+    }
+
+    float GetObstacleTileChance(float distance)
+    {
+        if (distance < 500f) return zone1ObstacleTileChance;
+        else if (distance < 1000f) return zone2ObstacleTileChance;
+        else if (distance < 1500f) return zone3ObstacleTileChance;
+        else if (distance < 2000f) return zone4ObstacleTileChance;
+        else return zone5ObstacleTileChance;
     }
 
     void SpawnFloorTile()
@@ -130,84 +158,93 @@ public class MapGenerator : MonoBehaviour
         activeTiles.Add(tile);
         spawnZ += tileLength;
 
-        // 현재 진행 거리에 따라 난이도 결정
         float distance = Mathf.Max(0f, player.position.z);
 
-        int difficultyLevel =
-            Mathf.FloorToInt(distance / difficultyInterval);
+        GameObject selectedObstaclePrefab = zone1ObstaclePrefab;
+        float coinSpawnChance = 0.30f;
 
-        // 장애물 2개가 나올 확률
-        float twoObstacleChance;
-
-        if (difficultyLevel == 0)
-            twoObstacleChance = 0.30f;
-        else if (difficultyLevel == 1)
-            twoObstacleChance = 0.50f;
-        else if (difficultyLevel == 2)
-            twoObstacleChance = 0.65f;
-        else if (difficultyLevel == 3)
-            twoObstacleChance = 0.80f;
-        else
-            twoObstacleChance = 0.90f;
-
-        // 빈 레인 선택
-        int safeLane = Random.Range(0, lanePositions.Length);
-
-        // 직전 타일과 같은 레인이 반복되면 다른 레인 선택
-        if (safeLane == previousSafeLane)
-        {
-            repeatedSafeLaneCount++;
-
-            if (repeatedSafeLaneCount >= 1)
-            {
-                int direction = Random.value < 0.5f ? -1 : 1;
-                safeLane =
-                    (previousSafeLane + direction + 3) % 3;
-            }
-        }
-        else
-        {
-            repeatedSafeLaneCount = 0;
-        }
-
-        previousSafeLane = safeLane;
-
-        // 장애물 배치 여부 결정
         bool[] hasObstacle = new bool[3];
 
-        for (int i = 0; i < lanePositions.Length; i++)
+        // 구간별 장애물 생성 패턴 및 프리팹 분기
+        if (distance < 500f)
         {
-            // 안전 레인은 비워 둠
-            if (i == safeLane)
-            {
-                hasObstacle[i] = false;
-                continue;
-            }
+            // [1단계: 0 ~ 500M] 단일 장애물 생성 (1개만 생성, 촘촘하지 않음)
+            selectedObstaclePrefab = zone1ObstaclePrefab;
+            coinSpawnChance = zone1CoinChance;
 
-            // 나머지 레인은 난이도에 따라 장애물 생성
-            hasObstacle[i] =
-                Random.value < twoObstacleChance;
-        }
-
-        // 장애물이 하나도 없으면 안전 레인이 아닌 곳에 하나 생성
-        bool hasAnyObstacle = false;
-
-        for (int i = 0; i < hasObstacle.Length; i++)
-        {
-            if (hasObstacle[i])
-            {
-                hasAnyObstacle = true;
-                break;
-            }
-        }
-
-        if (!hasAnyObstacle)
-        {
-            int laneToBlock = (safeLane + 1) % 3;
+            int safeLane = Random.Range(0, 3);
+            List<int> nonSafeLanes = new List<int>();
+            for (int i = 0; i < 3; i++) if (i != safeLane) nonSafeLanes.Add(i);
+            int laneToBlock = nonSafeLanes[Random.Range(0, nonSafeLanes.Count)];
             hasObstacle[laneToBlock] = true;
         }
+        else if (distance < 1000f)
+        {
+            // [2단계: 500 ~ 1000M] 두 개가 붙어 있는 장애물 생성, 거리를 널찍하게 둠
+            selectedObstaclePrefab = zone2ObstaclePrefab != null ? zone2ObstaclePrefab : zone1ObstaclePrefab;
+            coinSpawnChance = zone2CoinChance;
 
-        // 장애물 및 코인 생성
+            int safeLane = (Random.value < 0.5f) ? 0 : 2;
+            for (int i = 0; i < 3; i++)
+            {
+                if (i != safeLane) hasObstacle[i] = true;
+            }
+        }
+        else if (distance < 1500f)
+        {
+            // [3단계: 1000 ~ 1500M] 1단계(단일)와 2단계(붙어있음) 구조가 합쳐져서 나옴
+            selectedObstaclePrefab = zone3ObstaclePrefab != null ? zone3ObstaclePrefab : zone1ObstaclePrefab;
+            coinSpawnChance = zone3CoinChance;
+
+            if (Random.value < 0.5f)
+            {
+                int safeLane = Random.Range(0, 3);
+                List<int> nonSafeLanes = new List<int>();
+                for (int i = 0; i < 3; i++) if (i != safeLane) nonSafeLanes.Add(i);
+                hasObstacle[nonSafeLanes[Random.Range(0, nonSafeLanes.Count)]] = true;
+            }
+            else
+            {
+                int safeLane = (Random.value < 0.5f) ? 0 : 2;
+                for (int i = 0; i < 3; i++) if (i != safeLane) hasObstacle[i] = true;
+            }
+        }
+        else if (distance < 2000f)
+        {
+            // [4단계: 1500 ~ 2000M] 랜덤 조합, 거리 좁고 촘촘함
+            selectedObstaclePrefab = zone4ObstaclePrefab != null ? zone4ObstaclePrefab : zone1ObstaclePrefab;
+            coinSpawnChance = zone4CoinChance;
+
+            int safeLane = Random.Range(0, 3);
+            for (int i = 0; i < 3; i++)
+            {
+                if (i == safeLane) hasObstacle[i] = false;
+                else hasObstacle[i] = Random.value < 0.75f;
+            }
+
+            bool any = false;
+            for (int i = 0; i < 3; i++) if (hasObstacle[i]) any = true;
+            if (!any) hasObstacle[(safeLane + 1) % 3] = true;
+        }
+        else
+        {
+            // [무한 구간: 2000M ~] 랜덤 조합 및 촘촘한 패턴 유지
+            selectedObstaclePrefab = zone5ObstaclePrefab != null ? zone5ObstaclePrefab : zone4ObstaclePrefab;
+            coinSpawnChance = zone5CoinChance;
+
+            int safeLane = Random.Range(0, 3);
+            for (int i = 0; i < 3; i++)
+            {
+                if (i == safeLane) hasObstacle[i] = false;
+                else hasObstacle[i] = Random.value < 0.70f;
+            }
+
+            bool any = false;
+            for (int i = 0; i < 3; i++) if (hasObstacle[i]) any = true;
+            if (!any) hasObstacle[(safeLane + 1) % 3] = true;
+        }
+
+        // 오브젝트(장애물 및 코인) 생성 스폰
         for (int i = 0; i < lanePositions.Length; i++)
         {
             Vector3 spawnPosition = new Vector3(
@@ -218,26 +255,17 @@ public class MapGenerator : MonoBehaviour
 
             if (hasObstacle[i])
             {
-                if (obstaclePrefab != null)
+                if (selectedObstaclePrefab != null)
                 {
-                    Instantiate(
-                        obstaclePrefab,
-                        spawnPosition,
-                        Quaternion.identity
-                    );
+                    Instantiate(selectedObstaclePrefab, spawnPosition, Quaternion.identity);
                 }
             }
             else
             {
-                // 안전 레인에 확률적으로 코인 생성
-                if (coinPrefab != null &&
-                    Random.value < coinSpawnChance)
+                // 안전 레인에 코인 생성
+                if (coinPrefab != null && Random.value < coinSpawnChance)
                 {
-                    Instantiate(
-                        coinPrefab,
-                        spawnPosition,
-                        Quaternion.identity
-                    );
+                    Instantiate(coinPrefab, spawnPosition, Quaternion.identity);
                 }
             }
         }
