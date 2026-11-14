@@ -4184,8 +4184,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   baseSpeed: 15
-  acceleration: 0.5
-  moveSpeed: 17
+  acceleration: 0.7
+  moveSpeed: 18
   zone1MaxSpeed: 18
   zone2MaxSpeed: 22
   zone3MaxSpeed: 24
