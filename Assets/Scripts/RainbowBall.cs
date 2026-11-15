@@ -1,6 +1,4 @@
 
-
-
 using UnityEngine;
 
 public class RainbowBall : MonoBehaviour
@@ -8,46 +6,42 @@ public class RainbowBall : MonoBehaviour
     private Renderer ballRenderer;
     private Material ballMaterial;
 
-    public float colorSpeed = 0.5f;
+    [Header("Glow Settings")]
     public float emissionPower = 3f;
 
     void Start()
     {
         ballRenderer = GetComponent<Renderer>();
+
+        if (ballRenderer == null)
+            ballRenderer = GetComponentInChildren<Renderer>();
+
+        if (ballRenderer == null)
+        {
+            Debug.LogError("공의 Renderer를 찾을 수 없습니다.");
+            return;
+        }
+
         ballMaterial = ballRenderer.material;
 
+        // 공의 기본 색상을 흰색으로 고정
+        ballMaterial.SetColor("_BaseColor", Color.white);
+
+        // Emission 활성화
         ballMaterial.EnableKeyword("_EMISSION");
-    }
 
-    void Update()
-    {
-        float t = (Mathf.Sin(Time.time * colorSpeed) + 1f) / 2f;
-
-        Color blue = new Color(0f, 0.2f, 1f);
-        Color cyan = new Color(0f, 1f, 1f);
-        Color white = Color.white;
-
-        Color neonColor;
-
-        if (t < 0.5f)
-        {
-            neonColor = Color.Lerp(blue, cyan, t * 2f);
-        }
-        else
-        {
-            neonColor = Color.Lerp(cyan, white, (t - 0.5f) * 2f);
-        }
-
-        ballMaterial.SetColor("_BaseColor", neonColor);
+        // 흰색 발광 적용
         ballMaterial.SetColor(
             "_EmissionColor",
-            neonColor * emissionPower
+            Color.white * emissionPower
         );
     }
 
     void OnDestroy()
     {
         if (ballMaterial != null)
+        {
             Destroy(ballMaterial);
+        }
     }
 }
