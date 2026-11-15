@@ -4425,7 +4425,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1989462549}
         m_TargetAssemblyTypeName: AchievementPanelController, Assembly-CSharp
-        m_MethodName: CloseAchievement
+        m_MethodName: OpenAchievement
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
