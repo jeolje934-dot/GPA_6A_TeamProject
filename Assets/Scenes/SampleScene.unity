@@ -902,7 +902,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &410087040
 Light:
   m_ObjectHideFlags: 0
@@ -3700,6 +3700,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Road
       objectReference: {fileID: 0}
+    - target: {fileID: 2409107613472364765, guid: e82d9e9a616d8cb4b9b0df071aab7cf6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3036849126743851623, guid: e82d9e9a616d8cb4b9b0df071aab7cf6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3740,7 +3744,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -1902318638501587170, guid: e82d9e9a616d8cb4b9b0df071aab7cf6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -3748,6 +3753,55 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 589477092}
   m_SourcePrefab: {fileID: 100100000, guid: e82d9e9a616d8cb4b9b0df071aab7cf6, type: 3}
+--- !u!1 &1911236675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1911236677}
+  - component: {fileID: 1911236676}
+  m_Layer: 0
+  m_Name: Global Volume (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1911236676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911236675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 033cbf9844af0174d916c455e7934c12, type: 2}
+--- !u!4 &1911236677
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911236675}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.6338332, y: 2.516546, z: 0.30469233}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1947920378
 GameObject:
   m_ObjectHideFlags: 0
@@ -4044,6 +4098,7 @@ GameObject:
   - component: {fileID: 2117282846}
   - component: {fileID: 2117282847}
   - component: {fileID: 2117282848}
+  - component: {fileID: 2117282849}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -4183,7 +4238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e578d2b7a8fdc3409f51324c3e2ffce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  baseSpeed: 22
+  baseSpeed: 20
   acceleration: 0.3
   moveSpeed: 18
   zone1MaxSpeed: 18
@@ -4359,6 +4414,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2117282849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117282837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fedc14fb388354380ba49c35a2321d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RainbowBall
+  colorSpeed: 0.5
+  emissionPower: 3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -4373,3 +4442,4 @@ SceneRoots:
   - {fileID: 1837206383}
   - {fileID: 632130276}
   - {fileID: 1886385072}
+  - {fileID: 1911236677}
