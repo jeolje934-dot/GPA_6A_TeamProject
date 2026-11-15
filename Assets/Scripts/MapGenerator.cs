@@ -1,4 +1,5 @@
 
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,37 +16,29 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private GameObject zone4ObstaclePrefab;
     [SerializeField] private GameObject zone5ObstaclePrefab;
 
-    [Header("구간별 장애물 생성 확률")]
-    [Range(0f, 1f)]
-    [SerializeField] private float zone1ObstacleTileChance = 0.30f;
+    [Header("10단계 장애물 타일 생성 확률")]
+    [Range(0f, 1f)][SerializeField] private float stage1ObstacleChance = 0.25f;
+    [Range(0f, 1f)][SerializeField] private float stage2ObstacleChance = 0.30f;
+    [Range(0f, 1f)][SerializeField] private float stage3ObstacleChance = 0.35f;
+    [Range(0f, 1f)][SerializeField] private float stage4ObstacleChance = 0.40f;
+    [Range(0f, 1f)][SerializeField] private float stage5ObstacleChance = 0.45f;
+    [Range(0f, 1f)][SerializeField] private float stage6ObstacleChance = 0.48f;
+    [Range(0f, 1f)][SerializeField] private float stage7ObstacleChance = 0.52f;
+    [Range(0f, 1f)][SerializeField] private float stage8ObstacleChance = 0.55f;
+    [Range(0f, 1f)][SerializeField] private float stage9ObstacleChance = 0.58f;
+    [Range(0f, 1f)][SerializeField] private float stage10ObstacleChance = 0.60f;
 
-    [Range(0f, 1f)]
-    [SerializeField] private float zone2ObstacleTileChance = 0.38f;
-
-    [Range(0f, 1f)]
-    [SerializeField] private float zone3ObstacleTileChance = 0.45f;
-
-    [Range(0f, 1f)]
-    [SerializeField] private float zone4ObstacleTileChance = 0.52f;
-
-    [Range(0f, 1f)]
-    [SerializeField] private float zone5ObstacleTileChance = 0.58f;
-
-    [Header("구간별 코인 생성 확률")]
-    [Range(0f, 1f)]
-    [SerializeField] private float zone1CoinChance = 0.45f;
-
-    [Range(0f, 1f)]
-    [SerializeField] private float zone2CoinChance = 0.50f;
-
-    [Range(0f, 1f)]
-    [SerializeField] private float zone3CoinChance = 0.45f;
-
-    [Range(0f, 1f)]
-    [SerializeField] private float zone4CoinChance = 0.40f;
-
-    [Range(0f, 1f)]
-    [SerializeField] private float zone5CoinChance = 0.40f;
+    [Header("10단계 코인 생성 확률")]
+    [Range(0f, 1f)][SerializeField] private float stage1CoinChance = 0.50f;
+    [Range(0f, 1f)][SerializeField] private float stage2CoinChance = 0.50f;
+    [Range(0f, 1f)][SerializeField] private float stage3CoinChance = 0.48f;
+    [Range(0f, 1f)][SerializeField] private float stage4CoinChance = 0.46f;
+    [Range(0f, 1f)][SerializeField] private float stage5CoinChance = 0.44f;
+    [Range(0f, 1f)][SerializeField] private float stage6CoinChance = 0.42f;
+    [Range(0f, 1f)][SerializeField] private float stage7CoinChance = 0.40f;
+    [Range(0f, 1f)][SerializeField] private float stage8CoinChance = 0.38f;
+    [Range(0f, 1f)][SerializeField] private float stage9CoinChance = 0.36f;
+    [Range(0f, 1f)][SerializeField] private float stage10CoinChance = 0.35f;
 
     [Header("플레이어")]
     public Transform player;
@@ -60,11 +53,23 @@ public class MapGenerator : MonoBehaviour
     [Header("장애물 간격 설정")]
     [SerializeField] private int safeTilesAfterObstacle = 1;
 
+    [Header("2개 장애물 패턴 확률")]
+    [Range(0f, 1f)][SerializeField] private float stage1DoubleChance = 0f;
+    [Range(0f, 1f)][SerializeField] private float stage2DoubleChance = 0f;
+    [Range(0f, 1f)][SerializeField] private float stage3DoubleChance = 0.08f;
+    [Range(0f, 1f)][SerializeField] private float stage4DoubleChance = 0.12f;
+    [Range(0f, 1f)][SerializeField] private float stage5DoubleChance = 0.18f;
+    [Range(0f, 1f)][SerializeField] private float stage6DoubleChance = 0.22f;
+    [Range(0f, 1f)][SerializeField] private float stage7DoubleChance = 0.28f;
+    [Range(0f, 1f)][SerializeField] private float stage8DoubleChance = 0.32f;
+    [Range(0f, 1f)][SerializeField] private float stage9DoubleChance = 0.38f;
+    [Range(0f, 1f)][SerializeField] private float stage10DoubleChance = 0.42f;
+
     private float startTimer;
     private float spawnZ;
     private bool isSafeTime;
 
-    private int safeTilesRemaining = 0;
+    private int safeTilesRemaining;
 
     private readonly float[] lanePositions = { -2f, 0f, 2f };
 
@@ -76,7 +81,6 @@ public class MapGenerator : MonoBehaviour
         spawnZ = 0f;
         startTimer = 0f;
         isSafeTime = false;
-
         safeTilesRemaining = 0;
 
         for (int i = 0; i < amountOfTilesOnScreen; i++)
@@ -98,7 +102,8 @@ public class MapGenerator : MonoBehaviour
         }
 
         float targetZ =
-            player.position.z + tileLength * amountOfTilesOnScreen;
+            player.position.z +
+            tileLength * amountOfTilesOnScreen;
 
         while (spawnZ < targetZ)
         {
@@ -108,7 +113,7 @@ public class MapGenerator : MonoBehaviour
                 continue;
             }
 
-            // 장애물 뒤에 빈 타일을 보장
+            // 장애물 뒤에 빈 타일 배치
             if (safeTilesRemaining > 0)
             {
                 SpawnFloorTile();
@@ -116,13 +121,17 @@ public class MapGenerator : MonoBehaviour
                 continue;
             }
 
-            float obstacleChance = GetObstacleTileChance(spawnZ);
+            int stage = GetStage(spawnZ);
+
+            float obstacleChance =
+                GetObstacleChance(stage);
 
             if (Random.value < obstacleChance)
             {
-                SpawnTile();
+                SpawnTile(stage);
 
-                safeTilesRemaining = safeTilesAfterObstacle;
+                safeTilesRemaining =
+                    safeTilesAfterObstacle;
             }
             else
             {
@@ -155,61 +164,86 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    float GetObstacleTileChance(float distance)
+    // 1,000m마다 단계 상승
+    int GetStage(float distance)
     {
-        if (distance < 500f)
-            return zone1ObstacleTileChance;
+        int stage = Mathf.FloorToInt(distance / 1000f) + 1;
 
-        if (distance < 1000f)
-            return zone2ObstacleTileChance;
-
-        if (distance < 1500f)
-            return zone3ObstacleTileChance;
-
-        if (distance < 2000f)
-            return zone4ObstacleTileChance;
-
-        return zone5ObstacleTileChance;
+        return Mathf.Clamp(stage, 1, 10);
     }
 
-    float GetCoinChance(float distance)
+    float GetObstacleChance(int stage)
     {
-        if (distance < 500f)
-            return zone1CoinChance;
-
-        if (distance < 1000f)
-            return zone2CoinChance;
-
-        if (distance < 1500f)
-            return zone3CoinChance;
-
-        if (distance < 2000f)
-            return zone4CoinChance;
-
-        return zone5CoinChance;
+        switch (stage)
+        {
+            case 1: return stage1ObstacleChance;
+            case 2: return stage2ObstacleChance;
+            case 3: return stage3ObstacleChance;
+            case 4: return stage4ObstacleChance;
+            case 5: return stage5ObstacleChance;
+            case 6: return stage6ObstacleChance;
+            case 7: return stage7ObstacleChance;
+            case 8: return stage8ObstacleChance;
+            case 9: return stage9ObstacleChance;
+            default: return stage10ObstacleChance;
+        }
     }
 
-    GameObject GetObstaclePrefab(float distance)
+    float GetCoinChance(int stage)
     {
-        if (distance < 500f)
-            return zone1ObstaclePrefab;
+        switch (stage)
+        {
+            case 1: return stage1CoinChance;
+            case 2: return stage2CoinChance;
+            case 3: return stage3CoinChance;
+            case 4: return stage4CoinChance;
+            case 5: return stage5CoinChance;
+            case 6: return stage6CoinChance;
+            case 7: return stage7CoinChance;
+            case 8: return stage8CoinChance;
+            case 9: return stage9CoinChance;
+            default: return stage10CoinChance;
+        }
+    }
 
-        if (distance < 1000f)
-            return zone2ObstaclePrefab != null
-                ? zone2ObstaclePrefab : zone1ObstaclePrefab;
+    float GetDoubleChance(int stage)
+    {
+        switch (stage)
+        {
+            case 1: return stage1DoubleChance;
+            case 2: return stage2DoubleChance;
+            case 3: return stage3DoubleChance;
+            case 4: return stage4DoubleChance;
+            case 5: return stage5DoubleChance;
+            case 6: return stage6DoubleChance;
+            case 7: return stage7DoubleChance;
+            case 8: return stage8DoubleChance;
+            case 9: return stage9DoubleChance;
+            default: return stage10DoubleChance;
+        }
+    }
 
-        if (distance < 1500f)
-            return zone3ObstaclePrefab != null
-                ? zone3ObstaclePrefab : zone1ObstaclePrefab;
+    GameObject GetObstaclePrefab(int stage)
+    {
+        // 기존 5개 프리팹을 2단계씩 사용
+        GameObject selectedPrefab = null;
 
-        if (distance < 2000f)
-            return zone4ObstaclePrefab != null
-                ? zone4ObstaclePrefab : zone1ObstaclePrefab;
+        if (stage <= 2)
+            selectedPrefab = zone1ObstaclePrefab;
+        else if (stage <= 4)
+            selectedPrefab = zone2ObstaclePrefab;
+        else if (stage <= 6)
+            selectedPrefab = zone3ObstaclePrefab;
+        else if (stage <= 8)
+            selectedPrefab = zone4ObstaclePrefab;
+        else
+            selectedPrefab = zone5ObstaclePrefab;
 
-        return zone5ObstaclePrefab != null
-            ? zone5ObstaclePrefab
-            : (zone4ObstaclePrefab != null
-                ? zone4ObstaclePrefab : zone1ObstaclePrefab);
+        // 연결되지 않은 경우 기본 장애물 사용
+        if (selectedPrefab == null)
+            selectedPrefab = zone1ObstaclePrefab;
+
+        return selectedPrefab;
     }
 
     void SpawnFloorTile()
@@ -224,7 +258,7 @@ public class MapGenerator : MonoBehaviour
         spawnZ += tileLength;
     }
 
-    void SpawnTile()
+    void SpawnTile(int stage)
     {
         float currentTileZ = spawnZ;
 
@@ -237,49 +271,28 @@ public class MapGenerator : MonoBehaviour
         activeTiles.Add(tile);
         spawnZ += tileLength;
 
-        // 타일이 생성될 위치 기준으로 난이도 결정
-        float distance = currentTileZ;
-
         GameObject obstaclePrefab =
-            GetObstaclePrefab(distance);
-
-        float coinChance = GetCoinChance(distance);
+            GetObstaclePrefab(stage);
 
         if (obstaclePrefab == null)
         {
-            Debug.LogWarning("장애물 프리팹이 연결되지 않았습니다.");
+            Debug.LogWarning(
+                "장애물 프리팹이 연결되지 않았습니다."
+            );
             return;
         }
 
-        // 구간별 장애물 개수 결정
-        int obstacleCount = 1;
+        float coinChance = GetCoinChance(stage);
+        float doubleChance = GetDoubleChance(stage);
 
-        if (distance < 500f)
-        {
-            obstacleCount = 1;
-        }
-        else if (distance < 1000f)
-        {
-            obstacleCount = Random.value < 0.25f ? 2 : 1;
-        }
-        else if (distance < 1500f)
-        {
-            obstacleCount = Random.value < 0.40f ? 2 : 1;
-        }
-        else if (distance < 2000f)
-        {
-            obstacleCount = Random.value < 0.55f ? 2 : 1;
-        }
-        else
-        {
-            obstacleCount = Random.value < 0.60f ? 2 : 1;
-        }
+        // 장애물 1개 또는 2개 결정
+        int obstacleCount =
+            Random.value < doubleChance ? 2 : 1;
 
-        // 최소 하나의 안전 레인 확보
+        // 안전 레인은 항상 최소 1개 확보
         List<int> availableLanes =
             new List<int> { 0, 1, 2 };
 
-        // 장애물을 놓을 레인을 무작위로 선택
         for (int i = 0; i < obstacleCount; i++)
         {
             int randomIndex =
