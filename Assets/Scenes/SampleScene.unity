@@ -4050,8 +4050,8 @@ MonoBehaviour:
   zone3ObstaclePrefab: {fileID: 837149250766171746, guid: a1c520ede7f9f3d4c8d98d8ed52ddcd3, type: 3}
   zone4ObstaclePrefab: {fileID: 837149250766171746, guid: a1c520ede7f9f3d4c8d98d8ed52ddcd3, type: 3}
   zone5ObstaclePrefab: {fileID: 837149250766171746, guid: a1c520ede7f9f3d4c8d98d8ed52ddcd3, type: 3}
-  zone1ObstacleTileChance: 0.705
-  zone2ObstacleTileChance: 0.325
+  zone1ObstacleTileChance: 0.69
+  zone2ObstacleTileChance: 0.19
   zone3ObstacleTileChance: 0.65
   zone4ObstacleTileChance: 0.667
   zone5ObstacleTileChance: 0.75
@@ -4239,12 +4239,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   baseSpeed: 20
-  acceleration: 0.3
-  moveSpeed: 18
-  zone1MaxSpeed: 18
+  acceleration: 0.4
+  moveSpeed: 19
+  zone1MaxSpeed: 21
   zone2MaxSpeed: 22
-  zone3MaxSpeed: 24
-  zone4MaxSpeed: 25
+  zone3MaxSpeed: 26
+  zone4MaxSpeed: 28
   zone5MaxSpeed: 30
 --- !u!114 &2117282844
 MonoBehaviour:

@@ -75,6 +75,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 70e2e0e813635334faa2e1a9e78999cd, type: 3}
       insertIndex: -1
       addedObject: {fileID: -3130066545544419330}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 70e2e0e813635334faa2e1a9e78999cd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -9031278412896938653}
   m_SourcePrefab: {fileID: 100100000, guid: 70e2e0e813635334faa2e1a9e78999cd, type: 3}
 --- !u!1 &837149250766171746 stripped
 GameObject:
@@ -102,3 +105,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-9031278412896938653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837149250766171746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d08d46d95956d149bfd9a68980fde83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGlitch
+  minInterval: 0.05
+  maxInterval: 0.2
+  emissionPower: 4
+  blueColor: {r: 0, g: 0.5, b: 1, a: 1}
+  purpleColor: {r: 0.7, g: 0, b: 1, a: 1}
