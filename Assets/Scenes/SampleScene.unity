@@ -4164,20 +4164,21 @@ MonoBehaviour:
   zone3ObstaclePrefab: {fileID: 837149250766171746, guid: a1c520ede7f9f3d4c8d98d8ed52ddcd3, type: 3}
   zone4ObstaclePrefab: {fileID: 837149250766171746, guid: a1c520ede7f9f3d4c8d98d8ed52ddcd3, type: 3}
   zone5ObstaclePrefab: {fileID: 837149250766171746, guid: a1c520ede7f9f3d4c8d98d8ed52ddcd3, type: 3}
-  zone1ObstacleTileChance: 0.69
-  zone2ObstacleTileChance: 0.19
-  zone3ObstacleTileChance: 0.65
-  zone4ObstacleTileChance: 0.667
-  zone5ObstacleTileChance: 0.75
-  zone1CoinChance: 0.245
-  zone2CoinChance: 0.446
-  zone3CoinChance: 0.2
-  zone4CoinChance: 0.15
-  zone5CoinChance: 0.2
+  zone1ObstacleTileChance: 0.3
+  zone2ObstacleTileChance: 0.38
+  zone3ObstacleTileChance: 0.45
+  zone4ObstacleTileChance: 0.52
+  zone5ObstacleTileChance: 0.58
+  zone1CoinChance: 0.45
+  zone2CoinChance: 0.5
+  zone3CoinChance: 0.45
+  zone4CoinChance: 0.4
+  zone5CoinChance: 0.4
   player: {fileID: 2117282842}
   tileLength: 5
   amountOfTilesOnScreen: 6
   initialSafeTime: 1.5
+  safeTilesAfterObstacle: 1
 --- !u!4 &2085414178
 Transform:
   m_ObjectHideFlags: 0
@@ -4540,7 +4541,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29fedc14fb388354380ba49c35a2321d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RainbowBall
-  colorSpeed: 0.5
   emissionPower: 3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
