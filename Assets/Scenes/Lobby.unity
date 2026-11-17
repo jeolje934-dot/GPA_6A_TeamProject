@@ -3278,6 +3278,7 @@ GameObject:
   - component: {fileID: 718778514}
   - component: {fileID: 718778513}
   - component: {fileID: 718778512}
+  - component: {fileID: 718778515}
   m_Layer: 5
   m_Name: AchievementItem (2)
   m_TagString: Untagged
@@ -3367,6 +3368,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718778510}
   m_CullTransparentMesh: 1
+--- !u!114 &718778515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718778510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cbc0bc445fc4b46b96911de27fc7a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AchievementItemUI
+  achievementIndex: 2
+  achievementNameText: {fileID: 802737329}
+  descriptionText: {fileID: 1583495017}
+  progressText: {fileID: 1291465644}
+  progressBar: {fileID: 1826522722}
 --- !u!1 &733218427
 GameObject:
   m_ObjectHideFlags: 0
@@ -3764,6 +3782,7 @@ GameObject:
   - component: {fileID: 859044042}
   - component: {fileID: 859044041}
   - component: {fileID: 859044040}
+  - component: {fileID: 859044043}
   m_Layer: 5
   m_Name: AchievementItem (3)
   m_TagString: Untagged
@@ -3853,6 +3872,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 859044038}
   m_CullTransparentMesh: 1
+--- !u!114 &859044043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859044038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cbc0bc445fc4b46b96911de27fc7a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AchievementItemUI
+  achievementIndex: 3
+  achievementNameText: {fileID: 1757133041}
+  descriptionText: {fileID: 1436487504}
+  progressText: {fileID: 421386999}
+  progressBar: {fileID: 1891337310}
 --- !u!1 &897793839
 GameObject:
   m_ObjectHideFlags: 0
@@ -5553,6 +5589,7 @@ GameObject:
   - component: {fileID: 1310396814}
   - component: {fileID: 1310396813}
   - component: {fileID: 1310396815}
+  - component: {fileID: 1310396816}
   m_Layer: 5
   m_Name: AchievementItem
   m_TagString: Untagged
@@ -5642,6 +5679,23 @@ MonoBehaviour:
   m_FlexibleWidth: 0
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
+--- !u!114 &1310396816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310396811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cbc0bc445fc4b46b96911de27fc7a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AchievementItemUI
+  achievementIndex: 0
+  achievementNameText: {fileID: 1353623623}
+  descriptionText: {fileID: 1898049038}
+  progressText: {fileID: 62210468}
+  progressBar: {fileID: 1571607990}
 --- !u!1 &1318537260
 GameObject:
   m_ObjectHideFlags: 0
@@ -7463,6 +7517,7 @@ GameObject:
   - component: {fileID: 1702522744}
   - component: {fileID: 1702522743}
   - component: {fileID: 1702522742}
+  - component: {fileID: 1702522745}
   m_Layer: 5
   m_Name: AchievementItem (1)
   m_TagString: Untagged
@@ -7552,6 +7607,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702522740}
   m_CullTransparentMesh: 1
+--- !u!114 &1702522745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702522740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cbc0bc445fc4b46b96911de27fc7a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AchievementItemUI
+  achievementIndex: 1
+  achievementNameText: {fileID: 1499942176}
+  descriptionText: {fileID: 817519677}
+  progressText: {fileID: 992529366}
+  progressBar: {fileID: 1603524761}
 --- !u!1 &1703596268
 GameObject:
   m_ObjectHideFlags: 0
@@ -8059,6 +8131,7 @@ GameObject:
   - component: {fileID: 1758542106}
   - component: {fileID: 1758542105}
   - component: {fileID: 1758542104}
+  - component: {fileID: 1758542107}
   m_Layer: 5
   m_Name: AchievementItem (4)
   m_TagString: Untagged
@@ -8148,6 +8221,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1758542102}
   m_CullTransparentMesh: 1
+--- !u!114 &1758542107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758542102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cbc0bc445fc4b46b96911de27fc7a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AchievementItemUI
+  achievementIndex: 4
+  achievementNameText: {fileID: 49131085}
+  descriptionText: {fileID: 996572656}
+  progressText: {fileID: 1236394942}
+  progressBar: {fileID: 897793841}
 --- !u!1 &1764794418
 GameObject:
   m_ObjectHideFlags: 0
@@ -9514,7 +9604,7 @@ Transform:
   m_GameObject: {fileID: 1926264060}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 485.71402, y: 0.00001, z: -474.28595}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9635,7 +9725,7 @@ Transform:
   m_GameObject: {fileID: 1974456474}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 155.58514, y: -0.00001, z: -797.4693}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9680,7 +9770,7 @@ Transform:
   m_GameObject: {fileID: 1989462548}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 822.4824, y: 0.00004, z: 3040.081}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

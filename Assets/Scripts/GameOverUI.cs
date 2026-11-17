@@ -112,6 +112,9 @@ public class GameOverUI : MonoBehaviour
         if (isGameOver)
             return;
 
+        AchievementSystem.RecordDistance(distanceTravelled);     // 업적 기록 저장
+
+
         isGameOver = true;
 
         int minutes = Mathf.FloorToInt(survivalTime / 60f);
