@@ -1,7 +1,8 @@
 
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
 
 public class GameOverUI : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class GameOverUI : MonoBehaviour
     [Header("Scene")]
     [SerializeField] private string titleSceneName = "TitleScene";
 
+    [SerializeField] private AchievementPopupController achievementPopup;
+
     private Vector3 startPosition;
     private Vector3 lastPosition;
 
@@ -26,6 +29,7 @@ public class GameOverUI : MonoBehaviour
     private float distanceTravelled;
     private int totalCoins;
     private bool isGameOver;
+
 
     void Start()
     {
@@ -48,16 +52,52 @@ public class GameOverUI : MonoBehaviour
         UpdateGameUI();
     }
 
+
     void Update()
     {
+#if UNITY_EDITOR
+        // 개발자 테스트 키
+        if (Input.GetKeyDown(KeyCode.F8))
+            achievementPopup.ShowAchievement(0);
+
+        if (Input.GetKeyDown(KeyCode.F9))
+            achievementPopup.ShowAchievement(1);
+
+        if (Input.GetKeyDown(KeyCode.F10))
+            achievementPopup.ShowAchievement(2);
+
+        if (Input.GetKeyDown(KeyCode.F11))
+            achievementPopup.ShowAchievement(3);
+
+        if (Input.GetKeyDown(KeyCode.F12))
+            achievementPopup.ShowAchievement(4);
+#endif
+
         if (isGameOver)
             return;
 
         survivalTime += Time.deltaTime;
 
         UpdateDistance();
+
+        // 실제 거리 달성 확인
+        List<int> newlyUnlocked =
+            AchievementSystem.CheckDistance(distanceTravelled);
+
+        foreach (int index in newlyUnlocked)
+        {
+            if (achievementPopup != null)
+            {
+                achievementPopup.ShowAchievement(index);
+            }
+        }
+
         UpdateGameUI();
     }
+
+
+
+
 
     // 실제 이동 거리 누적
     private void UpdateDistance()
