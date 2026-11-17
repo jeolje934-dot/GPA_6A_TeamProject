@@ -119,6 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleGlitch
   minInterval: 0.05
   maxInterval: 0.2
-  emissionPower: 4
+  emissionPower: 3.5
   blueColor: {r: 0, g: 0.5, b: 1, a: 1}
-  purpleColor: {r: 0.7, g: 0, b: 1, a: 1}
+  purpleColor: {r: 1, g: 0, b: 0.95350933, a: 1}
+  offChance: 0.2

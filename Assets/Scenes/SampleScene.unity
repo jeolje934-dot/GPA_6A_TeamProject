@@ -1846,7 +1846,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: eaf55a245e865544b9464a6037b2543f, type: 3}
+  m_Resource: {fileID: 8300000, guid: 88e517ee0d865564b967a985f3a0634f, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -2392,7 +2392,7 @@ Light:
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 0.75212026, g: 0.7735849, b: 0.22623698, a: 1}
-  m_Intensity: 0.8
+  m_Intensity: 0.3
   m_Range: 5
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -3037,7 +3037,7 @@ Light:
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 0, g: 1, b: 1, a: 1}
-  m_Intensity: 0.8
+  m_Intensity: 0.3
   m_Range: 2.5
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -4592,7 +4592,7 @@ Light:
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 0, g: 1, b: 1, a: 1}
-  m_Intensity: 0.8
+  m_Intensity: 0.3
   m_Range: 2.5
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -5324,7 +5324,7 @@ Light:
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 0.75212026, g: 0.7735849, b: 0.22623698, a: 1}
-  m_Intensity: 0.8
+  m_Intensity: 0.3
   m_Range: 5
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -6072,7 +6072,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29fedc14fb388354380ba49c35a2321d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RainbowBall
-  emissionPower: 1
+  emissionPower: 0.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
