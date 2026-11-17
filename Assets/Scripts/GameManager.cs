@@ -49,7 +49,8 @@ public class GameManager : MonoBehaviour
     // 코인 획득
     public void AddCoins(int amount)
     {
-        if (amount <= 0) return;
+        if (amount <= 0)
+            return;
 
         coins += amount;
         SaveData();

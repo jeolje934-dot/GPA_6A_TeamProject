@@ -20,6 +20,7 @@ public class GameOverUI : MonoBehaviour
     [Header("Scene")]
     [SerializeField] private string titleSceneName = "TitleScene";
 
+    [Header("업적 팝업")]
     [SerializeField] private AchievementPopupController achievementPopup;
 
     private Vector3 startPosition;
@@ -29,7 +30,6 @@ public class GameOverUI : MonoBehaviour
     private float distanceTravelled;
     private int totalCoins;
     private bool isGameOver;
-
 
     void Start()
     {
@@ -52,25 +52,35 @@ public class GameOverUI : MonoBehaviour
         UpdateGameUI();
     }
 
-
     void Update()
     {
 #if UNITY_EDITOR
         // 개발자 테스트 키
-        if (Input.GetKeyDown(KeyCode.F8))
-            achievementPopup.ShowAchievement(0);
 
-        if (Input.GetKeyDown(KeyCode.F9))
-            achievementPopup.ShowAchievement(1);
+        // F7: 업적 기록 초기화
+        if (Input.GetKeyDown(KeyCode.F7))
+        {
+            AchievementSystem.ResetAchievements();
+        }
 
-        if (Input.GetKeyDown(KeyCode.F10))
-            achievementPopup.ShowAchievement(2);
+        // F8~F12: 업적 팝업 테스트
+        if (achievementPopup != null)
+        {
+            if (Input.GetKeyDown(KeyCode.F8))
+                achievementPopup.ShowAchievement(0);
 
-        if (Input.GetKeyDown(KeyCode.F11))
-            achievementPopup.ShowAchievement(3);
+            if (Input.GetKeyDown(KeyCode.F9))
+                achievementPopup.ShowAchievement(1);
 
-        if (Input.GetKeyDown(KeyCode.F12))
-            achievementPopup.ShowAchievement(4);
+            if (Input.GetKeyDown(KeyCode.F10))
+                achievementPopup.ShowAchievement(2);
+
+            if (Input.GetKeyDown(KeyCode.F11))
+                achievementPopup.ShowAchievement(3);
+
+            if (Input.GetKeyDown(KeyCode.F12))
+                achievementPopup.ShowAchievement(4);
+        }
 #endif
 
         if (isGameOver)
@@ -95,10 +105,6 @@ public class GameOverUI : MonoBehaviour
         UpdateGameUI();
     }
 
-
-
-
-
     // 실제 이동 거리 누적
     private void UpdateDistance()
     {
@@ -106,14 +112,6 @@ public class GameOverUI : MonoBehaviour
             return;
 
         Vector3 currentPosition = player.position;
-
-        Vector3 currentFlat = new Vector3(
-            currentPosition.x, 0f, currentPosition.z
-        );
-
-        Vector3 lastFlat = new Vector3(
-            lastPosition.x, 0f, lastPosition.z
-        );
 
         distanceTravelled += Mathf.Max(
             0f,
@@ -154,9 +152,8 @@ public class GameOverUI : MonoBehaviour
         if (isGameOver)
             return;
 
-        AchievementSystem.RecordDistance(distanceTravelled);     // 업적 기록 저장
-
-
+        // 업적 및 최고 거리 저장
+        AchievementSystem.RecordDistance(distanceTravelled);
 
         isGameOver = true;
 
@@ -180,6 +177,7 @@ public class GameOverUI : MonoBehaviour
     public void RetryGame()
     {
         Time.timeScale = 1f;
+
         SceneManager.LoadScene(
             SceneManager.GetActiveScene().name
         );

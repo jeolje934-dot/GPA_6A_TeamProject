@@ -29,7 +29,7 @@ public static class AchievementSystem
         100, 500, 1000, 5000, 10000
     };
 
-    // 최고 주행 거리
+    // 최고 주행 거리 불러오기
     public static float GetBestDistance()
     {
         return PlayerPrefs.GetFloat(BestDistanceKey, 0f);
@@ -72,7 +72,6 @@ public static class AchievementSystem
             PlayerPrefs.SetFloat(BestDistanceKey, distance);
         }
 
-        // 게임오버 시에도 최종 거리 기준으로 업적 확인
         CheckDistance(distance);
 
         PlayerPrefs.Save();
@@ -116,4 +115,21 @@ public static class AchievementSystem
     {
         return achievementTargets.Length;
     }
+
+#if UNITY_EDITOR
+    // 개발 중 업적 기록 초기화
+    public static void ResetAchievements()
+    {
+        PlayerPrefs.DeleteKey(BestDistanceKey);
+
+        for (int i = 0; i < achievementTargets.Length; i++)
+        {
+            PlayerPrefs.DeleteKey("AchievementUnlocked_" + i);
+        }
+
+        PlayerPrefs.Save();
+
+        Debug.Log("업적 기록 초기화 완료!");
+    }
+#endif
 }
