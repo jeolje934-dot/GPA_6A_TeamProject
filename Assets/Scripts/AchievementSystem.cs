@@ -28,26 +28,29 @@ public static class AchievementSystem
         100, 500, 1000, 5000, 10000
     };
 
-    // 최고 주행 거리
     public static float GetBestDistance()
     {
         return PlayerPrefs.GetFloat(BestDistanceKey, 0f);
     }
 
-    // 게임 종료 시 주행 기록 저장
+    // 게임 종료 시 최고 기록과 업적 저장
     public static void RecordDistance(float distance)
     {
+        distance = Mathf.Max(0f, distance);
+
         float previousBest = GetBestDistance();
 
-        if (distance <= previousBest)
-            return;
+        if (distance > previousBest)
+        {
+            PlayerPrefs.SetFloat(BestDistanceKey, distance);
+        }
 
-        PlayerPrefs.SetFloat(BestDistanceKey, distance);
+        // 최고 기록을 기준으로 업적 달성 여부 확인
+        float bestDistance = GetBestDistance();
 
-        // 달성한 업적 저장
         for (int i = 0; i < achievementTargets.Length; i++)
         {
-            if (distance >= achievementTargets[i])
+            if (bestDistance >= achievementTargets[i])
             {
                 PlayerPrefs.SetInt("AchievementUnlocked_" + i, 1);
             }
@@ -55,7 +58,7 @@ public static class AchievementSystem
 
         PlayerPrefs.Save();
 
-        Debug.Log("최고 주행 거리 갱신: " + distance);
+        Debug.Log("최고 주행 거리: " + bestDistance);
     }
 
     public static string GetName(int index)
@@ -73,7 +76,6 @@ public static class AchievementSystem
         return achievementTargets[index];
     }
 
-    // 업적 진행도
     public static float GetProgress(int index)
     {
         return Mathf.Min(
@@ -82,7 +84,6 @@ public static class AchievementSystem
         );
     }
 
-    // 업적 달성 여부
     public static bool IsUnlocked(int index)
     {
         return PlayerPrefs.GetInt(

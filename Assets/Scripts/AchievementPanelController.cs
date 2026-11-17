@@ -1,22 +1,52 @@
-
 using UnityEngine;
 
 public class AchievementPanelController : MonoBehaviour
 {
+    [Header("업적 패널")]
     public GameObject achievementPanel;
 
-    void Start()
+    private AchievementItemUI[] achievementItems;
+
+    void Awake()
     {
-        achievementPanel.SetActive(false);
+        if (achievementPanel != null)
+        {
+            achievementItems =
+                achievementPanel.GetComponentsInChildren<AchievementItemUI>(true);
+
+            achievementPanel.SetActive(false);
+        }
     }
 
     public void OpenAchievement()
     {
+        if (achievementPanel == null)
+            return;
+
         achievementPanel.SetActive(true);
+
+        RefreshAllAchievements();
     }
 
     public void CloseAchievement()
     {
-        achievementPanel.SetActive(false);
+        if (achievementPanel != null)
+        {
+            achievementPanel.SetActive(false);
+        }
+    }
+
+    public void RefreshAllAchievements()
+    {
+        if (achievementItems == null)
+            return;
+
+        foreach (AchievementItemUI item in achievementItems)
+        {
+            if (item != null)
+            {
+                item.Refresh();
+            }
+        }
     }
 }

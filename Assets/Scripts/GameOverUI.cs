@@ -75,8 +75,10 @@ public class GameOverUI : MonoBehaviour
             lastPosition.x, 0f, lastPosition.z
         );
 
-        distanceTravelled +=
-            Vector3.Distance(lastFlat, currentFlat);
+        distanceTravelled += Mathf.Max(
+            0f,
+            currentPosition.z - lastPosition.z
+        );
 
         lastPosition = currentPosition;
     }
@@ -113,6 +115,7 @@ public class GameOverUI : MonoBehaviour
             return;
 
         AchievementSystem.RecordDistance(distanceTravelled);     // 업적 기록 저장
+
 
 
         isGameOver = true;
