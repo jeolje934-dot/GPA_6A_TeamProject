@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3eeef05870599844b926977913199c9d, type: 3}
+  m_Name: Ability_Lucky
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityData
+  abilityId: 2
+  abilityName: "\uB7ED\uD0A4 \uCF54\uC5B4"
+  description: "\uCF54\uC778 \uD68D\uB4DD\uB7C9\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  price: 1200
+  icon: {fileID: 0}
