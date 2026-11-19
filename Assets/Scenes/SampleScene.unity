@@ -2093,7 +2093,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 88e517ee0d865564b967a985f3a0634f, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.925
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -6606,7 +6606,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   baseSpeed: 20
   acceleration: 0.4
-  moveSpeed: 19
+  moveSpeed: 20
   zone1MaxSpeed: 21
   zone2MaxSpeed: 22
   zone3MaxSpeed: 26
