@@ -29,7 +29,7 @@ public class AchievementItemUI : MonoBehaviour
         if (achievementNameText != null)
         {
             achievementNameText.text =
-                (unlocked ? "✓ " : "") +
+                (unlocked ? "V " : "") +
                 AchievementSystem.GetName(achievementIndex);
         }
 
