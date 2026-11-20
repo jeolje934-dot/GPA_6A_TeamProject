@@ -18,6 +18,18 @@ public class AchievementPanelController : MonoBehaviour
         }
     }
 
+
+
+    public void CloseAchievement()
+    {
+        Debug.Log("¾÷Àû ´Ý±â ¹öÆ° ½ÇÇàµÊ!");
+
+        if (achievementPanel != null)
+        {
+            achievementPanel.SetActive(false);
+        }
+    }
+
     public void OpenAchievement()
     {
         if (achievementPanel == null)
@@ -28,13 +40,13 @@ public class AchievementPanelController : MonoBehaviour
         RefreshAllAchievements();
     }
 
-    public void CloseAchievement()
-    {
-        if (achievementPanel != null)
-        {
-            achievementPanel.SetActive(false);
-        }
-    }
+    //public void CloseAchievement()
+    //{
+       // if (achievementPanel != null)
+       // {
+           // achievementPanel.SetActive(false);
+       // }
+    //}
 
     public void RefreshAllAchievements()
     {
