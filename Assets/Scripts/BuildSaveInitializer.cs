@@ -1,47 +1,44 @@
 
 using UnityEngine;
 
-[DefaultExecutionOrder(-10000)]
 public class BuildSaveInitializer : MonoBehaviour
 {
-    // 빌드 최초 실행 여부를 확인하는 키
-    private const string InitializedKey = "BuildSaveInitialized";
+    // 새 빌드를 만들 때 이 값을 변경합니다.
+    private const string BuildVersion = "1.0.1";
+
+    private const string InitializedVersionKey = "BuildSaveInitializedVersion";
 
     private void Awake()
     {
 #if !UNITY_EDITOR
+        string savedVersion = PlayerPrefs.GetString(
+            InitializedVersionKey, ""
+        );
 
-        // 이미 초기화한 빌드라면 종료
-        if (PlayerPrefs.GetInt(InitializedKey, 0) == 1)
+        if (savedVersion == BuildVersion)
             return;
 
-        Debug.Log("최초 실행: 플레이어 저장 데이터 초기화");
+        Debug.Log("새 빌드 감지: 플레이어 데이터 초기화");
 
-        // 코인 초기화
+        // 코인 및 아이템
         PlayerPrefs.DeleteKey("PlayerCoins");
-
-        // 치장 아이템 초기화
         PlayerPrefs.DeleteKey("OwnedCosmeticItems");
-
-        // 능력 구매 및 장착 기록 초기화
         PlayerPrefs.DeleteKey("OwnedAbilities");
         PlayerPrefs.DeleteKey("EquippedAbilities");
 
-        // 최고 거리 초기화
+        // 업적
         PlayerPrefs.DeleteKey("AchievementBestDistance");
 
-        // 업적 달성 기록 초기화
         for (int i = 0; i < 5; i++)
         {
             PlayerPrefs.DeleteKey("AchievementUnlocked_" + i);
         }
 
-        // 초기화 완료 기록
-        PlayerPrefs.SetInt(InitializedKey, 1);
+        // 초기화 완료 버전 저장
+        PlayerPrefs.SetString(InitializedVersionKey, BuildVersion);
         PlayerPrefs.Save();
 
-        Debug.Log("플레이어 저장 데이터 초기화 완료!");
-
+        Debug.Log("플레이어 데이터 초기화 완료!");
 #endif
     }
 }
